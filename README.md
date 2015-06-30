@@ -1,2 +1,2 @@
 # PredictionUrbML
-ML algorithms on top of PredictionIO Framework
+ML regression algorithms on top of PredictionIO Framework
