@@ -24,8 +24,5 @@ public class PreparedData implements Serializable, SanityCheck {
         if (regressionData.isEmpty()){
             throw new AssertionError("Prepared data is empty");
         }
-        if(regressionData.first().features().size() != 10){
-            throw new AssertionError("The number of features for training is not consistent");
-        }
     }
 }
