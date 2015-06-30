@@ -1,0 +1,19 @@
+{
+  "id": "default",
+  "description": "Default settings",
+  "engineFactory": "urb.ml.algorithms.RegressionEngine",
+  "datasource": {
+    "params" : {
+      "appName": "TemplatePredictionML"
+    }
+  },
+  "algorithms": [
+    {
+      "name": "RandomForestAlgorithm",
+      "params": {
+        "numTrees": 10,
+        "maxDepth": 4
+      }
+    }
+  ]
+}
