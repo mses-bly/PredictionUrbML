@@ -23,7 +23,6 @@ import urb.ml.serving.Query;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class DataSource extends PJavaDataSource<TrainingData, EmptyParams, Query, ActualResult> {
 
@@ -84,7 +83,7 @@ public class DataSource extends PJavaDataSource<TrainingData, EmptyParams, Query
             throw new AssertionError("Number of folds for evaluation must be greater than 0");
         }
 
-        int numFolds = dsp.getNumFolds();
+        final int numFolds = dsp.getNumFolds();
         LOGGER.info("K-Fold cross validation with K: " + dsp.getNumFolds());
 
         JavaRDD<LabeledPoint> allTrainingData = readTraining(sc).getRecords();
@@ -97,7 +96,7 @@ public class DataSource extends PJavaDataSource<TrainingData, EmptyParams, Query
             JavaRDD<LabeledPoint> kFoldTrainingRecords = indexedRecords.filter(new Function<Tuple2<LabeledPoint, Long>, Boolean>() {
                 @Override
                 public Boolean call(Tuple2<LabeledPoint, Long> t) throws Exception {
-                    return t._2() % 2 != K;
+                    return t._2() % numFolds != K;
                 }
             }).map(new Function<Tuple2<LabeledPoint,Long>, LabeledPoint>(){
                 @Override
@@ -109,7 +108,7 @@ public class DataSource extends PJavaDataSource<TrainingData, EmptyParams, Query
             JavaRDD<LabeledPoint> kFoldEvaluationRecords = indexedRecords.filter(new Function<Tuple2<LabeledPoint, Long>, Boolean>() {
                 @Override
                 public Boolean call(Tuple2<LabeledPoint, Long> t) throws Exception {
-                    return t._2() % 2 == K;
+                    return t._2() % numFolds == K;
                 }
             }).map(new Function<Tuple2<LabeledPoint,Long>, LabeledPoint>(){
                 @Override
